@@ -1,79 +1,61 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Gabp.Runtime
 {
     public class GabpRequestEnvelope<TParams>
     {
-        [Newtonsoft.Json.JsonProperty("v")]
-        [JsonPropertyName("v")]
+        [JsonProperty("v")]
         public string Version { get; set; } = GabpProtocol.EnvelopeVersion;
 
-        [Newtonsoft.Json.JsonProperty("id")]
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; } = string.Empty;
 
-        [Newtonsoft.Json.JsonProperty("type")]
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; } = GabpProtocol.RequestType;
 
-        [Newtonsoft.Json.JsonProperty("method")]
-        [JsonPropertyName("method")]
+        [JsonProperty("method")]
         public string Method { get; set; } = string.Empty;
 
-        [Newtonsoft.Json.JsonProperty("params")]
-        [JsonPropertyName("params")]
+        [JsonProperty("params")]
         public TParams Params { get; set; } = default!;
     }
 
     public class GabpResponseEnvelope<TResult>
     {
-        [Newtonsoft.Json.JsonProperty("v")]
-        [JsonPropertyName("v")]
+        [JsonProperty("v")]
         public string Version { get; set; } = GabpProtocol.EnvelopeVersion;
 
-        [Newtonsoft.Json.JsonProperty("id")]
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; } = string.Empty;
 
-        [Newtonsoft.Json.JsonProperty("type")]
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; } = GabpProtocol.ResponseType;
 
-        [Newtonsoft.Json.JsonProperty("result", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [JsonPropertyName("result")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty("result", NullValueHandling = NullValueHandling.Ignore)]
         public TResult? Result { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("error", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [JsonPropertyName("error")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonProperty("error", NullValueHandling = NullValueHandling.Ignore)]
         public GabpError? Error { get; set; }
     }
 
     public class GabpEventEnvelope<TPayload>
     {
-        [Newtonsoft.Json.JsonProperty("v")]
-        [JsonPropertyName("v")]
+        [JsonProperty("v")]
         public string Version { get; set; } = GabpProtocol.EnvelopeVersion;
 
-        [Newtonsoft.Json.JsonProperty("id")]
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; } = string.Empty;
 
-        [Newtonsoft.Json.JsonProperty("type")]
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; } = GabpProtocol.EventType;
 
-        [Newtonsoft.Json.JsonProperty("channel")]
-        [JsonPropertyName("channel")]
+        [JsonProperty("channel")]
         public string Channel { get; set; } = string.Empty;
 
-        [Newtonsoft.Json.JsonProperty("seq")]
-        [JsonPropertyName("seq")]
+        [JsonProperty("seq")]
         public int Sequence { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("payload")]
-        [JsonPropertyName("payload")]
+        [JsonProperty("payload")]
         public TPayload Payload { get; set; } = default!;
     }
 }

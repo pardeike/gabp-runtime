@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Gabp.Runtime.Tests
@@ -54,21 +55,21 @@ namespace Gabp.Runtime.Tests
 
             Assert.Equal(GabpProtocol.ToolsCallMethod, request.Method);
             Assert.Equal("test/tool", request.Params.Name);
-            Assert.True(request.Params.Arguments.HasValue);
-            Assert.Equal("value1", request.Params.Arguments.Value.GetProperty("param1").GetString());
-            Assert.Equal(42, request.Params.Arguments.Value.GetProperty("param2").GetInt32());
+            Assert.NotNull(request.Params.Arguments);
+            Assert.Equal("value1", request.Params.Arguments!["param1"]?.Value<string>());
+            Assert.Equal(42, request.Params.Arguments["param2"]?.Value<int>());
         }
 
         [Fact]
         public void DeserializesEventFixture()
         {
             var json = LoadValidFixture("004_event_message.json");
-            var envelope = GabpJson.Deserialize<GabpEventEnvelope<JsonElement>>(json);
+            var envelope = GabpJson.Deserialize<GabpEventEnvelope<JObject>>(json);
 
             Assert.Equal(GabpProtocol.EventType, envelope.Type);
             Assert.Equal("test/event", envelope.Channel);
             Assert.Equal(1, envelope.Sequence);
-            Assert.Equal("test event payload", envelope.Payload.GetProperty("data").GetString());
+            Assert.Equal("test event payload", envelope.Payload["data"]?.Value<string>());
         }
 
         [Fact]
@@ -81,8 +82,8 @@ namespace Gabp.Runtime.Tests
             Assert.Null(response.Result);
             Assert.Equal(-32601, response.Error!.Code);
             Assert.Equal("Method not found", response.Error.Message);
-            Assert.True(response.Error.Data.HasValue);
-            Assert.Equal("unknown/method", response.Error.Data.Value.GetProperty("method").GetString());
+            Assert.NotNull(response.Error.Data);
+            Assert.Equal("unknown/method", response.Error.Data!["method"]?.Value<string>());
         }
 
         [Fact]
@@ -96,8 +97,8 @@ namespace Gabp.Runtime.Tests
             Assert.Single(roundTrip.Result!.Tools);
             Assert.Equal("inventory/get", roundTrip.Result.Tools[0].Name);
             Assert.Equal("Get Inventory", roundTrip.Result.Tools[0].Title);
-            Assert.Equal("object", roundTrip.Result.Tools[0].InputSchema.GetProperty("type").GetString());
-            Assert.Equal("object", roundTrip.Result.Tools[0].OutputSchema.GetProperty("type").GetString());
+            Assert.Equal("object", roundTrip.Result.Tools[0].InputSchema["type"]?.Value<string>());
+            Assert.Equal("object", roundTrip.Result.Tools[0].OutputSchema["type"]?.Value<string>());
         }
 
         private static string LoadValidFixture(string fileName)

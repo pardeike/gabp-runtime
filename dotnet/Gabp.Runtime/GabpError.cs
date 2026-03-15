@@ -1,21 +1,17 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Gabp.Runtime
 {
     public class GabpError
     {
-        [Newtonsoft.Json.JsonProperty("code")]
-        [JsonPropertyName("code")]
+        [JsonProperty("code")]
         public int Code { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("message")]
-        [JsonPropertyName("message")]
+        [JsonProperty("message")]
         public string Message { get; set; } = string.Empty;
 
-        [Newtonsoft.Json.JsonProperty("data", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [JsonPropertyName("data")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public JsonElement? Data { get; set; }
+        [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
+        public JToken? Data { get; set; }
     }
 }

@@ -1,34 +1,24 @@
 # Valid Conformance Test Cases
 
-This directory contains GABP messages that should validate successfully against the schemas. These represent correct, well-formed messages that implementations should accept.
+This directory contains the positive GABP fixtures currently consumed by the Go
+and .NET runtime tests in this repository.
 
-## Test Categories
+These six files are representative samples, not full coverage of every schema
+present under `../../schemas/`.
 
-### Basic Message Types
-- **Request messages** - Properly formatted method calls from bridge to mod
-- **Response messages** - Valid responses from mod to bridge (success and error cases)
-- **Event messages** - Well-formed event notifications from mod to bridge
+## Current Fixture Set
 
-### Method Coverage
-Tests cover all standard GABP methods:
-- Session management (`session/hello`, `session/welcome`)
-- Tool operations (`tools/list`, `tools/call`) 
-- Event management (`events/subscribe`, `events/unsubscribe`)
-- Resource access (`resources/list`, `resources/read`)
-- State management (`state/get`, `state/set`)
-
-### Edge Cases
-Valid tests also cover acceptable edge cases:
-- **Minimal messages** - Messages with only required fields
-- **Maximal messages** - Messages with all optional fields populated
-- **Empty collections** - Empty arrays, objects where allowed
-- **Boundary values** - Minimum/maximum allowed values
-- **Unicode handling** - Non-ASCII characters in strings
+- `001_session_hello.json` - request fixture for `session/hello`
+- `002_session_welcome.json` - success response fixture for `session/welcome`
+- `003_tools_call.json` - request fixture for `tools/call`
+- `004_event_message.json` - generic event envelope fixture
+- `005_error_response.json` - response fixture carrying a protocol error
+- `006_tools_list_response.json` - success response fixture for `tools/list`
 
 ## Message Validation
 
 All messages in this directory should:
-- Pass validation against `../../../SCHEMA/1.0/envelope.schema.json`
+- Pass validation against `../../schemas/envelope.schema.json`
 - Pass validation against their specific method schemas
 - Demonstrate correct GABP protocol usage
 
@@ -37,19 +27,12 @@ All messages in this directory should:
 Validate all messages in this directory:
 
 ```bash
-# Basic envelope validation
-ajv -s ../../../SCHEMA/1.0/envelope.schema.json -d '*.json'
+ajv -s ../../schemas/envelope.schema.json -d '*.json'
 
-# Method-specific validation (example)
-ajv -s ../../../SCHEMA/1.0/methods/session.hello.request.json -d 'session-hello-*.json'
+# Method-specific validation examples
+ajv -s ../../schemas/methods/session.hello.request.json -d 001_session_hello.json
+ajv -s ../../schemas/methods/tools.list.response.json -d 006_tools_list_response.json
 ```
-
-## File Naming
-
-Valid test files follow naming patterns:
-- `valid-<method>-<case>.json` - e.g., `valid-session-hello-basic.json`
-- `valid-<type>-<case>.json` - e.g., `valid-event-player-move.json`
-- `valid-envelope-<case>.json` - General envelope structure tests
 
 ## Expected Behavior
 
@@ -59,4 +42,5 @@ When an implementation encounters messages like these:
 - **Protocol handling** should process the message appropriately
 - **Responses** should be generated as specified in the protocol
 
-These tests represent the "happy path" scenarios that all GABP implementations must handle correctly.
+In this repo, those expectations are currently exercised by fixture round-trip
+tests for the session, tool, event, and error message shapes listed above.

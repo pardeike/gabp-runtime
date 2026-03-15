@@ -1,6 +1,12 @@
 # Method Schemas
 
-This directory contains JSON Schema definitions for all standard GABP method calls. Each method has separate schemas for requests and responses.
+This directory contains the copied GABP 1.0 method schemas. Each method has
+separate request and response schemas where the protocol defines both.
+
+The schema snapshot is ahead of the typed runtime surface in this repo. The Go
+and .NET packages currently provide dedicated DTOs for `session/hello`,
+`session/welcome`, `tools/call`, and `tools/list`; the remaining method schemas
+are present here for shared fixtures and future expansion.
 
 ## Core Methods
 
@@ -53,6 +59,7 @@ ajv -s session.hello.request.json -d 'example-hello.json'
 
 When implementing custom methods, follow these patterns:
 - Use the envelope structure as a base
-- Follow naming conventions from `../../SPEC/1.0/registry.md`
+- Follow the canonical naming rules from the `GABP` source repo rather than
+  inventing local conventions here
 - Include proper validation for all parameters
 - Define clear input and output schemas

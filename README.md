@@ -24,14 +24,14 @@ It does not own:
 - `GABS` MCP bridge logic, naming transforms, or process orchestration
 - product-specific reconnect logic or session ownership
 
-## Packages
+## Package Surfaces
 
-The scaffold starts with two runtime package surfaces:
+This repo currently exposes two language surfaces:
 
-- NuGet package: `Gabp.Runtime`
+- .NET project/package id: `Gabp.Runtime`
 - Go module: `github.com/pardeike/gabp-runtime`
 
-Planned primary code entry points:
+Primary code entry points:
 
 - C# namespace: `Gabp.Runtime`
 - Go package path: `github.com/pardeike/gabp-runtime/runtime`
@@ -67,27 +67,30 @@ owning protocol decisions.
 
 ## Current Status
 
-This is a scaffold-only starting point.
+The repo is no longer scaffold-only. The shared runtime surface implemented
+today includes:
 
-What exists now:
+- generic request, response, and event envelopes
+- protocol constants and runtime metadata
+- error object models
+- JSON serialization helpers in Go and .NET
+- session handshake DTOs for `session/hello` and `session/welcome`
+- capability and limit models
+- tool DTOs for `tools/call` and `tools/list`
+- shared conformance fixtures exercised by Go and .NET tests
 
-- repo layout
-- package names
-- minimal .NET and Go package shells
-- sync script for local schema and conformance fixtures
+The runtime packages do not yet include:
 
-What does not exist yet:
-
-- real message types
-- serializers
-- validators
-- framing codec
+- dedicated DTOs for `events.subscribe`, `events.unsubscribe`, `resources.*`,
+  or `state.*`
+- schema validation or generated validators
+- transport framing helpers
 - consumer integration in `Lib.GAB` or `GABS`
 
 ## Next Steps
 
-1. Sync `testdata/` from `GABP`.
-2. Add the common envelope, error, session, tool, event, resource, and state
-   models.
-3. Add serializer coverage in C# and Go.
-4. Run both languages against the same `GABP` conformance fixtures.
+1. Keep `testdata/` synchronized from `GABP`.
+2. Extend the typed runtime surface to the remaining copied method schemas.
+3. Add validation and framing only if the consumer repos need them here.
+4. Continue exercising both language implementations against the same fixture
+   set.

@@ -45,6 +45,8 @@ Key properties:
 - **inputSchema** - JSON Schema for tool arguments
 - **outputSchema** - JSON Schema for tool results  
 - **tags** - Optional categorization tags
+- **deprecated** - Optional deprecation marker
+- **version** - Optional tool version string
 
 ## Capabilities Schema
 
@@ -61,6 +63,8 @@ Key properties:
 - **methods** - Array of available protocol method names
 - **events** - Array of available event channel names
 - **resources** - Array of available resource URI patterns
+- **extensions** - Optional extension-specific capability objects
+- **limits** - Optional implementation limits such as message size and timeout
 
 ## Usage in Other Schemas
 

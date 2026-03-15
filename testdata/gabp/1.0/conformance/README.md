@@ -1,73 +1,60 @@
 # GABP 1.0 Conformance Tests
 
-This directory contains conformance test cases for validating GABP implementations. These tests ensure that implementations correctly handle valid and invalid messages.
+This directory contains the copied GABP 1.0 conformance fixtures used by this
+repo's Go and .NET tests.
+
+These files are snapshots from the canonical `GABP` repo. They are local test
+inputs, not the source of truth for protocol behavior.
 
 ## Test Categories
 
-- **[valid/](valid/)** - Messages that should validate successfully and be accepted
-- **[invalid/](invalid/)** - Messages that should be rejected due to schema violations
+- **[valid/](valid/)** - six fixtures that should validate successfully
+- **[invalid/](invalid/)** - six fixtures that should fail schema validation
 
 ## Purpose
 
-Conformance tests serve multiple purposes:
-
-### For Implementers
-- Verify your implementation handles edge cases correctly
-- Test error handling for malformed messages
-- Ensure compatibility with the GABP specification
-
-### For Protocol Development
-- Validate schema definitions catch expected errors
-- Document expected behavior for corner cases
-- Regression testing during protocol evolution
-
-### For Continuous Integration
-- Automated validation that examples conform to schemas
-- Prevent accidental breaking changes to schemas
-- Ensure consistency between specification and implementation
+- Provide one fixture set that both runtime implementations can consume.
+- Keep copied protocol assets close to the code that round-trips them.
+- Make it easy to spot when the local snapshot has drifted from `GABP`.
 
 ## Running Conformance Tests
 
-### Valid Messages
-All messages in `valid/` should validate against their respective schemas:
+From the repo root, validate all valid fixtures against the base envelope
+schema:
 
 ```bash
-# Test all valid messages against envelope schema
-ajv -s ../../SCHEMA/1.0/envelope.schema.json -d 'valid/*.json'
-
-# Test specific method messages
-ajv -s ../../SCHEMA/1.0/methods/session.hello.request.json -d 'valid/session-hello-*.json'
+ajv -s testdata/gabp/1.0/schemas/envelope.schema.json \
+  -d 'testdata/gabp/1.0/conformance/valid/*.json'
 ```
 
-### Invalid Messages  
-All messages in `invalid/` should fail validation:
+Validate a fixture against its method-specific schema:
 
 ```bash
-# Test invalid messages (should fail)
-ajv -s ../../SCHEMA/1.0/envelope.schema.json -d 'invalid/*.json' --invalid
+ajv -s testdata/gabp/1.0/schemas/methods/session.hello.request.json \
+  -d testdata/gabp/1.0/conformance/valid/001_session_hello.json
+```
+
+Check that the invalid fixtures are rejected:
+
+```bash
+ajv -s testdata/gabp/1.0/schemas/envelope.schema.json \
+  -d 'testdata/gabp/1.0/conformance/invalid/*.json' \
+  --invalid
 ```
 
 The `--invalid` flag tells AJV that validation failures are expected.
 
 ## Test Organization
 
-Test files are named to indicate what they test:
-- `valid-session-hello-basic.json` - Basic valid session/hello message
-- `invalid-missing-version.json` - Message missing required version field
-- `invalid-wrong-type.json` - Message with invalid type field
-
-## CI Integration
-
-These tests run automatically in GitHub Actions to ensure:
-- All valid messages pass schema validation
-- All invalid messages fail schema validation as expected
-- Schema changes don't break existing valid messages
-- New invalid cases are properly caught
+- `valid/` currently covers `session/hello`, `session/welcome`, `tools/call`,
+  `event`, error-response, and `tools/list` examples.
+- `invalid/` currently covers missing IDs, conflicting `result` and `error`,
+  invalid event shape, invalid method naming, wrong version, and invalid tool
+  names.
 
 ## Adding New Tests
 
 When adding conformance tests:
 1. Include both positive and negative test cases
-2. Test edge cases and boundary conditions  
-3. Document what each test validates in comments
-4. Follow the naming convention for discoverability
+2. Sync them from `GABP` instead of hand-editing local copies when possible
+3. Keep filenames stable enough for both language test suites to reference

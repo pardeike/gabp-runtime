@@ -1,6 +1,11 @@
 # GABP 1.0 Schemas
 
-This directory contains machine-readable JSON Schema definitions for GABP (Game Agent Bridge Protocol) version 1.0.
+This directory contains the copied GABP 1.0 JSON Schemas used by local runtime
+tests and validation experiments.
+
+The schema snapshot is broader than the typed runtime surface currently exposed
+by the Go and .NET packages in this repo. For example, the schema copy includes
+resource and state methods that do not yet have dedicated DTOs here.
 
 ## Schema Files
 
@@ -64,9 +69,9 @@ Event messages have their own structure with channels, sequence numbers, and pay
 ### Common Schemas
 Shared definitions like error objects, tool definitions, and capability structures.
 
-## Validation in CI
+## Local Notes
 
-These schemas are validated in continuous integration to ensure:
-- All example messages conform to schemas
-- Schema syntax is valid JSON Schema
-- Cross-references between schemas resolve correctly
+- `scripts/sync-gabp-assets.sh` refreshes this directory from `../GABP`.
+- The runtime packages here currently model the session and tool message subset,
+  plus generic envelopes and error/event shapes.
+- Use these files as local fixtures; protocol ownership still belongs in `GABP`.

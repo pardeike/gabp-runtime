@@ -1,0 +1,15 @@
+.DS_Store
+
+# .NET
+**/bin/
+**/obj/
+TestResults/
+
+# Go
+*.test
+*.out
+coverage.txt
+
+# Editors
+.idea/
+.vscode/

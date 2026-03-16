@@ -6,6 +6,12 @@ This package is intentionally separate from the schema-only package in the
 `GABP` repository. It is the place for reusable runtime code that both
 `Lib.GAB` and `GABS` can build on.
 
+## Installation
+
+```bash
+dotnet add package Gabp.Runtime --prerelease
+```
+
 ## Current Surface
 
 - generic request, response, and event envelopes

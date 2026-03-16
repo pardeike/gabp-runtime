@@ -8,6 +8,7 @@
     <Description>Shared runtime primitives for the Game Agent Bridge Protocol (GABP).</Description>
     <PackageTags>gabp;runtime;json-rpc;game-agent-bridge-protocol</PackageTags>
     <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/pardeike/gabp-runtime</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <LangVersion>latest</LangVersion>

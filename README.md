@@ -36,6 +36,13 @@ Primary code entry points:
 - C# namespace: `Gabp.Runtime`
 - Go package path: `github.com/pardeike/gabp-runtime/runtime`
 
+Install the published packages with:
+
+```bash
+dotnet add package Gabp.Runtime --prerelease
+go get github.com/pardeike/gabp-runtime@v0.1.0-alpha.1
+```
+
 ## Layout
 
 ```text

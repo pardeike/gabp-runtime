@@ -93,7 +93,7 @@ func TestSessionWelcomeFixtureRoundTrip(t *testing.T) {
 func loadValidFixture(t *testing.T, fileName string) []byte {
 	t.Helper()
 
-	path := filepath.Join("..", "testdata", "gabp", "1.0", "conformance", "valid", fileName)
+	path := filepath.Join("..", "testdata", "gabp", TargetGabpSchemaVersion, "conformance", "valid", fileName)
 	data, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatalf("read fixture %s: %v", path, err)

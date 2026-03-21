@@ -7,7 +7,13 @@ const (
 	MessageTypeResponse = "response"
 	MessageTypeEvent    = "event"
 
-	MethodSessionHello = "session/hello"
-	MethodToolsCall    = "tools/call"
-	MethodToolsList    = "tools/list"
+	MethodSessionHello     = "session/hello"
+	MethodToolsCall        = "tools/call"
+	MethodToolsList        = "tools/list"
+	MethodAttentionCurrent = "attention/current"
+	MethodAttentionAck     = "attention/ack"
+
+	ChannelAttentionOpened  = "attention/opened"
+	ChannelAttentionUpdated = "attention/updated"
+	ChannelAttentionCleared = "attention/cleared"
 )

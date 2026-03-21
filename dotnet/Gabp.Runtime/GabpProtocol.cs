@@ -9,5 +9,10 @@ namespace Gabp.Runtime
         public const string SessionHelloMethod = "session/hello";
         public const string ToolsCallMethod = "tools/call";
         public const string ToolsListMethod = "tools/list";
+        public const string AttentionCurrentMethod = "attention/current";
+        public const string AttentionAckMethod = "attention/ack";
+        public const string AttentionOpenedChannel = "attention/opened";
+        public const string AttentionUpdatedChannel = "attention/updated";
+        public const string AttentionClearedChannel = "attention/cleared";
     }
 }

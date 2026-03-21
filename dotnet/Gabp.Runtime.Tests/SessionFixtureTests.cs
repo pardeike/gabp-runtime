@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
@@ -101,12 +100,14 @@ namespace Gabp.Runtime.Tests
             Assert.Equal("object", roundTrip.Result.Tools[0].OutputSchema["type"]?.Value<string>());
         }
 
-        private static string LoadValidFixture(string fileName)
+        internal static string LoadValidFixture(string fileName)
         {
             var path = Path.GetFullPath(
                 Path.Combine(
                     AppContext.BaseDirectory,
-                    "../../../../../testdata/gabp/1.0/conformance/valid",
+                    "../../../../../testdata/gabp",
+                    RuntimeMetadata.TargetGabpSchemaVersion,
+                    "conformance/valid",
                     fileName));
 
             return File.ReadAllText(path);

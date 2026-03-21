@@ -7,9 +7,12 @@ const (
 	// PackagePath is the primary Go package path for the runtime layer.
 	PackagePath = ModulePath + "/runtime"
 
-	// DevelopmentVersion is the scaffold version before the first runtime release.
-	DevelopmentVersion = "0.1.0-alpha.1"
+	// Version is the current gabp-runtime package version.
+	Version = "1.0.0"
 
-	// TargetGabpSchemaVersion is the initial schema line this repo is expected to target.
+	// DevelopmentVersion is retained as a compatibility alias for Version.
+	DevelopmentVersion = Version
+
+	// TargetGabpSchemaVersion is the GABP schema line this repo targets.
 	TargetGabpSchemaVersion = "1.0"
 )

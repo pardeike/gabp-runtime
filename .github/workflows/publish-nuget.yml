@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Release tag to publish, for example v0.1.0-alpha.1
+        description: Release tag to publish, for example v1.0.0
         required: false
         type: string
   release:
@@ -25,7 +25,16 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v5.0.0
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
+
+    - name: Setup Go
+      uses: actions/setup-go@v6.3.0
+      with:
+        go-version-file: go.mod
+        cache-dependency-path: go.mod
+
+    - name: Run Go runtime tests
+      run: go test ./...
 
     - name: Run .NET runtime tests
       run: dotnet test dotnet/Gabp.Runtime.Tests/Gabp.Runtime.Tests.csproj --configuration Release
@@ -45,7 +54,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v5.0.0
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
+
+    - name: Setup Go
+      uses: actions/setup-go@v6.3.0
+      with:
+        go-version-file: go.mod
+        cache-dependency-path: go.mod
 
     - name: Verify release tag matches package version
       env:
@@ -56,6 +71,9 @@ jobs:
           echo "Release tag $RELEASE_TAG does not match package version v$PACKAGE_VERSION" >&2
           exit 1
         fi
+
+    - name: Run Go runtime tests
+      run: go test ./...
 
     - name: Run .NET runtime tests
       run: dotnet test dotnet/Gabp.Runtime.Tests/Gabp.Runtime.Tests.csproj --configuration Release

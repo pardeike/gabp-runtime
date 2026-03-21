@@ -3,14 +3,14 @@ package runtime
 import "encoding/json"
 
 type ToolDescriptor struct {
-	Name        string          `json:"name"`
-	Title       string          `json:"title"`
-	Description string          `json:"description"`
-	InputSchema json.RawMessage `json:"inputSchema"`
+	Name         string          `json:"name"`
+	Title        string          `json:"title"`
+	Description  string          `json:"description"`
+	InputSchema  json.RawMessage `json:"inputSchema"`
 	OutputSchema json.RawMessage `json:"outputSchema"`
-	Tags        []string        `json:"tags,omitempty"`
-	Deprecated  *bool           `json:"deprecated,omitempty"`
-	Version     string          `json:"version,omitempty"`
+	Tags         []string        `json:"tags,omitempty"`
+	Deprecated   *bool           `json:"deprecated,omitempty"`
+	Version      string          `json:"version,omitempty"`
 }
 
 type ToolsCallParams struct {

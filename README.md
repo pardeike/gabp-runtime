@@ -6,6 +6,11 @@ This repository is downstream from `GABP`. It does not define the protocol.
 It packages reusable runtime code that speaks the canonical wire model already
 defined in the `GABP` repo.
 
+`gabp-runtime` versioning is independent from `GABP` repository releases.
+`gabp-runtime v1.0.0` is the first stable runtime release and targets the
+`GABP` schema line `1.0`, with fixtures synced through the additive
+`GABP v1.1.0` release.
+
 ## Scope
 
 `gabp-runtime` exists to hold the pieces that should be identical across
@@ -39,8 +44,8 @@ Primary code entry points:
 Install the published packages with:
 
 ```bash
-dotnet add package Gabp.Runtime --prerelease
-go get github.com/pardeike/gabp-runtime@v0.1.0-alpha.1
+dotnet add package Gabp.Runtime
+go get github.com/pardeike/gabp-runtime@latest
 ```
 
 ## Layout
@@ -72,10 +77,9 @@ This repo should consume:
 The `testdata/` copies here are for runtime tests and local development, not for
 owning protocol decisions.
 
-## Current Status
+## Current Surface
 
-The repo is no longer scaffold-only. The shared runtime surface implemented
-today includes:
+The shared runtime surface includes:
 
 - generic request, response, and event envelopes
 - protocol constants and runtime metadata
@@ -84,7 +88,11 @@ today includes:
 - session handshake DTOs for `session/hello` and `session/welcome`
 - capability and limit models
 - tool DTOs for `tools/call` and `tools/list`
+- attention DTOs for `attention/current`, `attention/ack`, and shared
+  attention payloads
 - shared conformance fixtures exercised by Go and .NET tests
+
+## Remaining Scope
 
 The runtime packages do not yet include:
 
@@ -94,7 +102,7 @@ The runtime packages do not yet include:
 - transport framing helpers
 - consumer integration in `Lib.GAB` or `GABS`
 
-## Next Steps
+## Maintenance
 
 1. Keep `testdata/` synchronized from `GABP`.
 2. Extend the typed runtime surface to the remaining copied method schemas.
